@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smoking Progress Tracker | LungCare</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- Main Style (Navbar & Footer) -->
+    <link rel="stylesheet" href="../../assets/style/Style.css" />
+    
+    <!-- Page-specific style -->
+    <link rel="stylesheet" href="../../assets/style/smoking-progress-tracker.css" />
+</head>
+<body>
+
+    <!-- ===== NAVBAR (full width) ===== -->
+    <nav class="navbar navbar-expand-lg sticky-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="../../index.html" id="brand-logo">
+                <img src="../../images/smoke1.png" alt="LungCare Icon" class="brand-icon">
+                <span>LungCare</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../index.html#about">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link services-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                            <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                           <li><a class="dropdown-item" href="ai-assessment.html"    data-protected="true">AI Symptoms Checker</a></li>
+                            <li><a class="dropdown-item" href="../../page/tests/nicotine-test.html" data-protected="true">Nicotine Analysis</a></li>
+                            <li><a class="dropdown-item" href="../../page/doctors.html">Doctors &amp; Clinics</a></li>
+                            <li><a class="dropdown-item" href="../../page/health-tools/cashup.html"data-protected="true">cashup</a></li>
+                            <li><a class="dropdown-item" href="../../page/health-tools/progress-trackers.html"data-protected="true">Quit Smoking Counter</a></li>
+                            <li><a class="dropdown-item" href="../../page/community/stories.html"data-protected="true">Survivors Community</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link services-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Awareness
+                            <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                             <li><a class="dropdown-item" href="../../page/awarensess2.html">Lung Cancer</a></li>
+        <li><a class="dropdown-item" href="../../page/awarensess.html">Smoking Awareness</a></li>
+        <li><a class="dropdown-item" href="../../page/awarensess3.html">Common Myths</a></li>
+        <li><a class="dropdown-item" href="../../page/health-tools/body model.html">BODY MODEL</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../index.html#contact">Contact</a>
+                    </li>
+                </ul>
+
+                <!-- Guest Auth -->
+                <div id="nav-auth-guest">
+                    <a href="../../page/auth/login.html" class="btn-login">Login / Sign Up</a>
+                </div>
+
+                <!-- User Auth -->
+                <div id="nav-auth-user" class="dropdown" style="display:none;">
+                    <div class="user-icon dropdown-toggle" id="user-profile-icon" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Your account">&#128100;</div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="../../page/profile.html">👤 Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logout-link">🚪 Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Toast -->
+    <div id="auth-toast">🔒 Please login to access this service</div>
+
+    <!-- ===== MAIN CONTENT (centered with container) ===== -->
+    <div class="container py-5">
+        <div class="progress-header">
+            <h1>🚭 Smoking Progress Tracker</h1>
+            <p>Track your recovery journey and see how your body heals</p>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-card">
+            <form id="progressForm">
+                <div class="form-group">
+                    <label class="form-label" for="cigarettesPerDay">Cigarettes per day before quitting <span class="required">*</span></label>
+                    <input type="number" id="cigarettesPerDay" class="form-input" placeholder="e.g., 20" min="1" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="daysQuit">Days since you quit smoking <span class="required">*</span></label>
+                    <input type="number" id="daysQuit" class="form-input" placeholder="e.g., 45" min="0" required />
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="userAge">Your age <span class="required">*</span></label>
+                        <input type="number" id="userAge" class="form-input" placeholder="e.g., 35" min="10" max="120" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="smokingYears">Years you smoked <span class="required">*</span></label>
+                        <input type="number" id="smokingYears" class="form-input" placeholder="e.g., 15" min="0" max="100" required />
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Calculate Progress</button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <h2 class="results-title">Your Recovery Progress</h2>
+            
+            <!-- Lungs -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">🫁 Lungs</div>
+                    <div class="system-percentage" id="lungsPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="lungsBar"></div></div>
+                <p class="system-message" id="lungsMessage"></p>
+            </div>
+
+            <!-- Heart -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">❤️ Heart</div>
+                    <div class="system-percentage" id="heartPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="heartBar"></div></div>
+                <p class="system-message" id="heartMessage"></p>
+            </div>
+
+            <!-- Brain -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">🧠 Brain</div>
+                    <div class="system-percentage" id="brainPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="brainBar"></div></div>
+                <p class="system-message" id="brainMessage"></p>
+            </div>
+
+            <!-- Liver -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">🧬 Liver</div>
+                    <div class="system-percentage" id="liverPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="liverBar"></div></div>
+                <p class="system-message" id="liverMessage"></p>
+            </div>
+
+            <!-- Intestines -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">🦠 Intestines</div>
+                    <div class="system-percentage" id="intestinesPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="intestinesBar"></div></div>
+                <p class="system-message" id="intestinesMessage"></p>
+            </div>
+
+            <!-- Teeth -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">🦷 Teeth</div>
+                    <div class="system-percentage" id="teethPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="teethBar"></div></div>
+                <p class="system-message" id="teethMessage"></p>
+            </div>
+
+            <!-- Mouth -->
+            <div class="system-card">
+                <div class="system-header">
+                    <div class="system-name">👄 Mouth</div>
+                    <div class="system-percentage" id="mouthPercentage">0%</div>
+                </div>
+                <div class="progress-bar-container"><div class="progress-bar" id="mouthBar"></div></div>
+                <p class="system-message" id="mouthMessage"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER (full width) ===== -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <div class="footer-brand">LungCare</div>
+                    <p class="footer-about">We believe every breath tells a story. Our mission is to turn awareness into action, empowering you to take control of your lung health and live free.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="../../index.html#services">Services</a></li>
+                        <li><a href="../../index.html#awareness">Awareness</a></li>
+                        <li><a href="../../index.html#contact">Contact</a></li>
+                        <li><a href="../../privacy.html">Privacy Policy</a></li>
+                        <li><a href="../../legal.html">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-heading">Contact Info</h5>
+                    <ul class="footer-contact">
+                        <li><i class="contact-icon">📧</i><a href="/cdn-cgi/l/email-protection#1f767179705f736a71787c7e6d7a317c7072">[email&#160;protected]</a></li>
+                        <li><i class="contact-icon">📞</i><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                        <li><i class="contact-icon">📍</i><span>123 Health Street, Medical City, MC 12345</span></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-heading">Stay In Touch</h5>
+                    <p class="newsletter-text">Subscribe to get updates on lung health and wellness tips.</p>
+                    <form class="newsletter-form" id="newsletter-form" method="POST">
+                        <input type="email" class="newsletter-input" name="newsletter-email" id="newsletter-email" placeholder="Your Email" required>
+                        <button type="submit" class="btn btn-newsletter" id="newsletter-submit-btn">Send</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="copyright-text">Copyright &copy; 2026 LungCare. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="social-media">
+                            <a href="https://facebook.com/lungcare" class="social-icon" target="_blank">📘</a>
+                            <a href="https://twitter.com/lungcare" class="social-icon" target="_blank">🐦</a>
+                            <a href="https://instagram.com/lungcare" class="social-icon" target="_blank">📷</a>
+                            <a href="https://linkedin.com/company/lungcare" class="social-icon" target="_blank">🔗</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/Js/config.js"></script>
+    <script src="../../assets/Js/main.js"></script>
+    <script src="../../assets/Js/health-tools.js/progress-tracker.js"></script>
+</body>
+</html>

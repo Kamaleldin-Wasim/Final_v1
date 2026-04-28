@@ -1,0 +1,630 @@
+/* ================================================================
+   profile.css — LungCare Profile Page
+   ================================================================ */
+
+/* ── Reset & Base ──────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue: #1D74F5;
+  --blue-hover: #1558c0;
+  --blue-light: #e8f1fe;
+  --red: #e53e3e;
+  --red-light: #fff5f5;
+  --red-border: #fc8181;
+  --text: #111827;
+  --muted: #6B7280;
+  --border: #D1D5DB;
+  --bg: #f3f4f6;
+  --card-bg: #ffffff;
+  --footer-bg: #1e2a38;
+  --radius: 10px;
+  --nav-height: 68px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", sans-serif;
+  color: var(--text);
+  background: #F9FAFB;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ════════════════════════════════════════════════════
+   NAVBAR
+   ════════════════════════════════════════════════════ */
+.navbar {
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 12px 0;
+}
+
+.navbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-brand {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", sans-serif;
+ /* font-family: 'Syne', sans-serif;*/
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  -webkit-transition: background 0.2s, color 0.2s;
+  -moz-transition: background 0.2s, color 0.2s;
+  -ms-transition: background 0.2s, color 0.2s;
+  -o-transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover { background: #F3F4F6; }
+.nav-link.active { color: #1E88E5; font-weight: 600; }
+
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link.active {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.avatar-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2.5px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+  -webkit-transition: background 0.2s, border-color 0.2s;
+  -moz-transition: background 0.2s, border-color 0.2s;
+  -ms-transition: background 0.2s, border-color 0.2s;
+  -o-transition: background 0.2s, border-color 0.2s;
+}
+
+.avatar-btn:hover {
+  background: var(--blue-hover);
+  border-color: #fff;
+}
+
+/* ════════════════════════════════════════════════════
+   MAIN CONTENT
+   ════════════════════════════════════════════════════ */
+.main-content {
+  flex: 1;
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+}
+
+/* ── Page title row ─────────────────────────────────── */
+.page-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", sans-serif;
+  /*font-family: 'Syne', sans-serif;*/
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.btn-logout {
+  padding: 9px 22px;
+  border: 2px solid var(--blue-hover);
+  background: transparent;
+  color: var(--muted);
+  border-radius: var(--radius);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",    "Ubuntu", sans-serif;
+  font-size: 0.93rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  -webkit-border-radius: var(--radius);
+  -moz-border-radius: var(--radius);
+  -ms-border-radius: var(--radius);
+  -o-border-radius: var(--radius);
+  -webkit-transition: background 0.2s, color 0.2s;
+  -moz-transition: background 0.2s, color 0.2s;
+  -ms-transition: background 0.2s, color 0.2s;
+  -o-transition: background 0.2s, color 0.2s;
+}
+
+.btn-logout:hover {
+  background: var(--blue-hover);
+  color: #fff;
+}
+
+/* ── Alert banner ───────────────────────────────────── */
+.profile-alert {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+  animation: shake 0.35s ease both;
+  -webkit-animation: shake 0.35s ease both;
+  -webkit-border-radius: var(--radius);
+  -moz-border-radius: var(--radius);
+  -ms-border-radius: var(--radius);
+  -o-border-radius: var(--radius);
+}
+
+.profile-alert.show {
+  display: flex;
+}
+
+.profile-alert--error {
+  background: var(--red-light);
+  border: 1px solid var(--red-border);
+  color: var(--red);
+}
+
+.profile-alert--success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  animation: none;
+}
+
+/* ── Profile card ───────────────────────────────────── */
+.profile-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  padding: 36px 40px 40px;
+}
+
+.card-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", sans-serif;
+  /*font-family: 'DM Sans', sans-serif;*/
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Form layout (label | input) ────────────────────── */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-row:last-of-type {
+  border-bottom: none;
+}
+
+.form-row--textarea {
+  align-items: flex-start;
+  padding-top: 16px;
+}
+
+.form-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ── Inputs ─────────────────────────────────────────── */
+.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",    "Ubuntu", sans-serif;
+  font-size: 0.93rem;
+  color: var(--text);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-transition: border-color 0.2s, box-shadow 0.2s;
+  -moz-transition: border-color 0.2s, box-shadow 0.2s;
+  -ms-transition: border-color 0.2s, box-shadow 0.2s;
+  -o-transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-border-radius: var(--radius);
+  -moz-border-radius: var(--radius);
+  -ms-border-radius: var(--radius);
+  -o-border-radius: var(--radius);
+}
+
+.form-input::placeholder {
+  color: #adb5bd;
+}
+
+.form-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(29, 116, 245, 0.12);
+}
+
+.form-input.error-input {
+  border-color: var(--red);
+  background: var(--red-light);
+}
+
+/* ── Select wrapper (custom arrow) ──────────────────── */
+.select-wrap {
+  position: relative;
+}
+
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+.select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--muted);
+  pointer-events: none;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+}
+
+/* ── Textarea ───────────────────────────────────────── */
+.form-textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.5;
+}
+
+/* ── Number input — hide spinners ────────────────────── */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ── Form actions ───────────────────────────────────── */
+.form-actions {
+  margin-top: 28px;
+}
+
+.btn-save {
+  width: 100%;
+  padding: 14px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",    "Ubuntu", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(29, 116, 245, 0.3);
+  -webkit-border-radius: var(--radius);
+  -moz-border-radius: var(--radius);
+  -ms-border-radius: var(--radius);
+  -o-border-radius: var(--radius);
+  -webkit-transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  -moz-transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  -ms-transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  -o-transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-save:hover {
+  background: var(--blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(29, 116, 245, 0.4);
+  -webkit-transform: translateY(-1px);
+  -moz-transform: translateY(-1px);
+  -ms-transform: translateY(-1px);
+  -o-transform: translateY(-1px);
+}
+
+.btn-save:active {
+  transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+}
+
+.btn-save.loading {
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* ── Spinner ─────────────────────────────────────────── */
+.btn-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+  -webkit-animation: spin 0.7s linear infinite;
+}
+
+.btn-save.loading .btn-spinner {
+  display: block;
+}
+
+.btn-save.loading .btn-label {
+  opacity: 0.75;
+}
+
+/* ════════════════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════════════════ */
+.site-footer {
+  background: var(--footer-bg);
+  color: #fff;
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 52px 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+.footer-tagline {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-story-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
+}
+
+.footer-story-row {
+  display: flex;
+  gap: 0;
+}
+
+.footer-story-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: none;
+  -webkit-border-radius: var(--radius) 0 0 var(--radius);
+  -moz-border-radius: var(--radius) 0 0 var(--radius);
+  -ms-border-radius: var(--radius) 0 0 var(--radius);
+  -o-border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.footer-story-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-story-input:focus {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.footer-story-btn {
+  padding: 12px 22px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  -webkit-border-radius: 0 var(--radius) var(--radius) 0;
+  -moz-border-radius: 0 var(--radius) var(--radius) 0;
+  -ms-border-radius: 0 var(--radius) var(--radius) 0;
+  -o-border-radius: 0 var(--radius) var(--radius) 0;
+  -webkit-transition: background 0.2s;
+  -moz-transition: background 0.2s;
+  -ms-transition: background 0.2s;
+  -o-transition: background 0.2s;
+}
+
+.footer-story-btn:hover {
+  background: var(--blue-hover);
+}
+
+/* Footer bottom bar */
+.footer-bottom {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
+
+.footer-links span {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.8rem;
+}
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════ */
+@media (max-width: 720px) {
+  .nav-links {
+    display: none;
+  }
+
+  .profile-card {
+    padding: 24px 18px 28px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .form-row--textarea {
+    align-items: flex-start;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   KEYFRAMES
+   ════════════════════════════════════════════════════ */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
+}

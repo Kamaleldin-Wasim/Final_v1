@@ -1,0 +1,366 @@
+{
+  "info": {
+    "_postman_id": "nosmokejourney-api-collection",
+    "name": "No Smoke Journey API",
+    "description": "API Collection for No Smoke Journey - Smoking Awareness Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123!\",\n  \"phoneNumber\": \"+1234567890\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/refresh",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"your-jwt-token\",\n  \"refreshToken\": \"your-refresh-token\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/1"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/users/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"phoneNumber\": \"+9876543210\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/users/change-password",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"Password123!\",\n  \"newPassword\": \"NewPassword123!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Smokers",
+      "item": [
+        {
+          "name": "Create Smoker Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/smokers/user/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 35,\n  \"gender\": 0,\n  \"cigarettesPerDay\": 20,\n  \"yearsOfSmoking\": 10,\n  \"medicalHistory\": \"None\",\n  \"familyDiseases\": \"None\",\n  \"previousQuitAttempts\": 2,\n  \"cigarettePrice\": 10.50\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Smoker by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/smokers/1"
+          }
+        },
+        {
+          "name": "Set Quit Date",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/smokers/1/quit-date",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quitDate\": \"2024-01-01T00:00:00Z\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Doctors",
+      "item": [
+        {
+          "name": "Get All Doctors",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/doctors"
+          }
+        },
+        {
+          "name": "Get Doctor by ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/doctors/1"
+          }
+        },
+        {
+          "name": "Filter Doctors",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/doctors/filter?location=Cairo&specialization=Pulmonology&minRating=4"
+          }
+        },
+        {
+          "name": "Create Doctor (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/doctors",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 2,\n  \"specialization\": \"Pulmonology\",\n  \"location\": \"Cairo, Egypt\",\n  \"contactInfo\": \"+20123456789\",\n  \"about\": \"Specialized in respiratory diseases and smoking cessation.\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Medical Centers",
+      "item": [
+        {
+          "name": "Get All Centers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/medicalcenters"
+          }
+        },
+        {
+          "name": "Get Nearby Centers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/medicalcenters/nearby?latitude=30.0444&longitude=31.2357&radiusKm=10"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Seminars",
+      "item": [
+        {
+          "name": "Get All Seminars",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/seminars"
+          }
+        },
+        {
+          "name": "Get Upcoming Seminars",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/seminars/upcoming"
+          }
+        },
+        {
+          "name": "Register for Seminar",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/seminars/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"seminarId\": 1,\n  \"notes\": \"Looking forward to attending!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Recovery Stories",
+      "item": [
+        {
+          "name": "Get Approved Stories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/recoverystories/approved"
+          }
+        },
+        {
+          "name": "Submit Story",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/recoverystories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My Journey to Freedom\",\n  \"content\": \"After 15 years of smoking, I finally quit...\",\n  \"photoUrl\": \"/images/story1.jpg\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Tools",
+      "item": [
+        {
+          "name": "Take Addiction Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/addictiontests/smoker/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question1Score\": 2,\n  \"question2Score\": 1,\n  \"question3Score\": 1,\n  \"question4Score\": 2,\n  \"question5Score\": 1,\n  \"question6Score\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "Assess Cancer Risk",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/api/cancerrisk/smoker/1/assess",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 35,\n  \"cigarettesPerDay\": 20,\n  \"yearsOfSmoking\": 10,\n  \"hasFamilyHistory\": false,\n  \"hasPersistentCough\": true,\n  \"hasChestPain\": false,\n  \"hasShortnessOfBreath\": false,\n  \"hasBloodInCough\": false,\n  \"hasUnexplainedWeightLoss\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Progress Tracker",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/progresstracker/smoker/1"
+          }
+        },
+        {
+          "name": "Get Quit Timeline",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/progresstracker/smoker/1/timeline"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Educational Content",
+      "item": [
+        {
+          "name": "Get All Content",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/educationalcontent"
+          }
+        },
+        {
+          "name": "Get Content by Type",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/educationalcontent/type/Video"
+          }
+        },
+        {
+          "name": "Get Content by Organ",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/educationalcontent/organ/Lungs"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:5001",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

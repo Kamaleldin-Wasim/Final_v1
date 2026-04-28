@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LungCare — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../assets/style/admin shared.css"/>
+  <link rel="stylesheet" href="../../assets/style/admin.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="Admin dashboard .html" class="nav-brand">LungCare</a>
+      <nav class="nav-links">
+        <a href="Admin dashboard .html" class="nav-link active">Home</a>
+        <a href="manage-doctors.html" class="nav-link">Doctors Management</a>
+        <a href="manage-seminars.html" class="nav-link">Seminars</a>
+        <a href="manage-hospitals.html" class="nav-link">Hospitals & Labs</a>
+        <a href="moderate-stories.html" class="nav-link">Stories</a>
+      </nav>
+      <button class="btn-logout" id="logoutBtn">Log Out</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Welcome back, <span class="text-yellow">Admin</span>
+        </h1>
+        <p class="hero-subtitle">
+          Manage your health platform's data<br />and community from one place.
+        </p>
+        <button class="btn btn-yellow btn-action" onclick="location.href = 'manage-doctors.html'">
+          Doctors Management
+        </button>
+      </div>
+    </section>
+
+    <!-- Stats Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="storiesSubmittedCount">0</div>
+        <div class="stat-label">Stories Submitted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalUsersCount">0</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="activeDoctorsCount">0</div>
+        <div class="stat-label">Active Doctors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="hospitalsLabsCount">0</div>
+        <div class="stat-label">Hospitals & Labs</div>
+      </div>
+    </section>
+
+    <!-- Management Cards -->
+    <section class="management-cards">
+      <a href="manage-doctors.html" class="mgmt-card">
+        <div class="mgmt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M12 14c-6 0-8 3-8 5v2h16v-2c0-2-2-5-8-5z"/>
+            <path d="M19 8h-2V6h-2v2h-2v2h2v2h2v-2h2z" fill="#3B97FF"/>
+          </svg>
+        </div>
+        <h3 class="mgmt-title">Doctors Management</h3>
+        <p class="mgmt-desc">Approve doctor profiles, set specialties and schedules.</p>
+      </a>
+
+      <a href="manage-hospitals.html" class="mgmt-card">
+        <div class="mgmt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="currentColor">
+            <circle cx="32" cy="32" r="18" fill="none" stroke="currentColor" stroke-width="3"/>
+            <circle cx="32" cy="22" r="3"/>
+            <circle cx="24" cy="28" r="2.5"/>
+            <circle cx="40" cy="28" r="2.5"/>
+            <circle cx="20" cy="36" r="2"/>
+            <circle cx="32" cy="38" r="2"/>
+            <circle cx="44" cy="36" r="2"/>
+            <path d="M28 34L32 38L36 34" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <h3 class="mgmt-title">Hospitals & Labs</h3>
+        <p class="mgmt-desc">Maintain hospital and laboratory listings, contacts and locations.</p>
+      </a>
+<a href="manage-seminars.html" class="mgmt-card">
+  <div class="mgmt-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4 4h16v2H4V4zm2 4h12v2H6V8zm14 4H4v2h16v-2zm-2 4H6v2h12v-2zm-4 4h-4v2h4v-2z" fill="#3B97FF"/>
+      <rect x="6" y="6" width="12" height="2" fill="#3B97FF"/>
+      <circle cx="12" cy="14" r="2" fill="#FFD700"/>
+    </svg>
+  </div>
+  <h3 class="mgmt-title">Seminars Management</h3>
+  <p class="mgmt-desc">Schedule and manage educational seminars and events.</p>
+</a>
+      <a href="moderate-stories.html" class="mgmt-card">
+        <div class="mgmt-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="#FFD700">
+            <ellipse cx="32" cy="50" rx="12" ry="6" fill="#FFC400"/>
+            <circle cx="32" cy="35" r="14"/>
+            <circle cx="28" cy="32" r="2" fill="#111"/>
+            <circle cx="36" cy="32" r="2" fill="#111"/>
+            <path d="M28 38Q32 40 36 38" stroke="#111" stroke-width="1.5" fill="none"/>
+            <path d="M26 28L24 26M38 28L40 26" stroke="#111" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3 class="mgmt-title">Recovery Stories</h3>
+        <p class="mgmt-desc">Review, edit, approve or remove user-submitted success stories.</p>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-logo">LungCare</p>
+      <p class="footer-tagline">Our goal is to keep you healthy.</p>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-links">
+        <a href="#">Terms & Conditions</a>
+        <span>|</span>
+        <a href="#">Privacy Policy</a>
+        <span>|</span>
+        <a href="#">Accessibility</a>
+        <span>|</span>
+        <a href="#">Legal</a>
+        <span>|</span>
+      </div>
+      <p class="footer-copy">All Copyrights Saved © HealthCare Website</p>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Modal Overlay -->
+  <div id="modalOverlay" class="modal-overlay" style="display: none;"></div>
+
+  <script src="../../assets/Js/config.js"></script>
+  <script src="../../assets/Js/admin.js/Dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+/* ================================================================
+   auth.css — Shared styles for LungCare auth pages
+   (forgot-password.html, enter-code.html, register.html, etc.)
+   ================================================================ */
+
+/* ── Reset & Base ──────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --blue: #2563EB;
+    --blue-light: #DBEAFE;
+    --blue-hover: #1D4ED8;
+    --text: #111827;
+    --muted: #6B7280;
+    --border: #D1D5DB;
+    --error: #DC2626;
+    --success: #16A34A;
+    --success-bg: #F0FDF4;
+    --success-bd: #BBF7D0;
+    --radius: 14px;
+}
+
+body {
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen";
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #0f1923;
+}
+
+/* ── Background photo overlay ─────────────────────── */
+.bg {
+    position: fixed;
+    inset: 0;
+    background: url('../../images/auth.png') center / cover no-repeat;
+    filter: brightness(0.52) saturate(0.8);
+    z-index: 0;
+}
+
+/* ── Decorative blobs ──────────────────────────────── */
+.blob {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(220, 225, 230, 0.55);
+    z-index: 1;
+}
+
+.blob-tl {
+    width: 340px;
+    height: 340px;
+    top: -120px;
+    left: -100px;
+}
+
+.blob-tr {
+    width: 420px;
+    height: 420px;
+    top: -160px;
+    right: -140px;
+}
+
+.blob-bl {
+    width: 280px;
+    height: 280px;
+    bottom: -100px;
+    left: -100px;
+}
+
+/* ── Card wrapper ──────────────────────────────────── */
+.card-wrap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ── Brand title ───────────────────────────────────── */
+.brand {
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen";
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 18px;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    animation: fadeDown 0.55s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+/* ── White card ────────────────────────────────────── */
+.card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 44px 36px;
+    width: min(440px, 92vw);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+    animation: fadeUp 0.6s cubic-bezier(.22, 1, .36, 1) 0.08s both;
+}
+
+.card h1 {
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen";
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.card .subtitle {
+    font-size: 0.88rem;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 26px;
+    line-height: 1.5;
+}
+
+.card .subtitle strong {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+/* ── Form fields ───────────────────────────────────── */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.input-wrap {
+    position: relative;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen";
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fff;
+}
+
+input::placeholder {
+    color: var(--muted);
+}
+
+input:focus {
+    border-color: #93C5FD;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3);
+}
+
+input.error-input {
+    border-color: var(--error);
+}
+
+/* ── Password / code toggle ────────────────────────── */
+.toggle-pw {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.toggle-pw:hover {
+    color: var(--text);
+}
+
+/* ── Alert banners ─────────────────────────────────── */
+.alert {
+    display: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    align-items: center;
+    gap: 8px;
+}
+
+.alert.show {
+    display: flex;
+    animation: shake 0.35s ease both;
+}
+
+.alert-error {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: var(--error);
+}
+
+.alert-success {
+    background: var(--success-bg);
+    border: 1px solid var(--success-bd);
+    color: var(--success);
+    animation: none !important;
+}
+
+.error-msg {
+    display: none;
+    /* <-- الخطوة 1: إخفاء الرسالة بشكل افتراضي */
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: var(--error);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    align-items: center;
+    gap: 8px;
+}
+
+.error-msg.show {
+    display: flex;
+    /* <-- سيتم تفعيل هذا الكلاس بواسطة الجافا سكريبت لإظهار الرسالة */
+    animation: shake 0.35s ease both;
+    /* <-- إعادة استخدام الأنيميشن الرائع الذي لديك */
+}
+
+/* ── Buttons ───────────────────────────────────────── */
+.btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: var(--radius);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen";
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-primary {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.btn-primary:hover {
+    background: var(--blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary.loading {
+    pointer-events: none;
+    opacity: 0.75;
+}
+
+/* ── Spinner ───────────────────────────────────────── */
+.spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.btn-primary.loading .spinner {
+    display: inline-block;
+}
+
+.btn-primary.loading .btn-text {
+    opacity: 0.7;
+}
+
+/* ── Footer / help links ───────────────────────────── */
+.footer-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+.footer-text a,
+.link {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.footer-text a:hover,
+.link:hover {
+    color: var(--blue-hover);
+}
+
+/* ================================================================
+   OTP / Code Input — enter-code.html
+   ================================================================ */
+
+.otp-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.otp-input {
+    width: 60px !important;
+    height: 60px;
+    padding: 0 !important;
+    text-align: center;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    border: 1.5px solid var(--border) !important;
+    caret-color: var(--blue);
+    -moz-appearance: textfield;
+}
+
+.otp-input::-webkit-inner-spin-button,
+.otp-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.otp-input:focus {
+    border-color: #93C5FD !important;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3) !important;
+}
+
+.otp-input.filled {
+    border-color: var(--blue) !important;
+    background: var(--blue-light);
+    color: var(--blue);
+}
+
+.otp-input.error-input {
+    border-color: var(--error) !important;
+    background: #FEF2F2;
+    color: var(--error);
+}
+
+/* ── Resend row ────────────────────────────────────── */
+.resend-row {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+/* ── Keyframes ─────────────────────────────────────── */
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-5px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+/* ================================================================
+   REGISTER PAGE — register.html
+   ================================================================ */
+
+/* Google / secondary button */
+.btn-google {
+    background: var(--blue-light);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-google:hover {
+    background: #BFDBFE;
+    transform: translateY(-1px);
+}
+
+/* Divider between primary and google button */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 4px;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* Match hint shown beneath confirm-password */
+.match-hint {
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-top: 5px;
+    min-height: 16px;
+}
+
+.match-hint.ok {
+    color: var(--success);
+}
+
+.match-hint.no {
+    color: var(--error);
+}

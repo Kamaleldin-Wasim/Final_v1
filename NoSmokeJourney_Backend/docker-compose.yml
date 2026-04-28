@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: nosmokejourney-db
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - nosmokejourney-network
+
+  api:
+    build:
+      context: .
+      dockerfile: NoSmokeJourney.API/Dockerfile
+    container_name: nosmokejourney-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=NoSmokeJourneyDB;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+    ports:
+      - "5000:80"
+      - "5001:443"
+    depends_on:
+      - sqlserver
+    networks:
+      - nosmokejourney-network
+
+volumes:
+  sqlserver_data:
+
+networks:
+  nosmokejourney-network:
+    driver: bridge

@@ -1,0 +1,1175 @@
+/* ==========================================
+   CSS VARIABLES
+   ========================================== */
+:root {
+    --primary-blue: #2563EB;
+    --primary-dark: #1E40AF;
+    --light-blue: #3B82F6;
+    --accent-blue: #60A5FA;
+    --dark-navy: #1E293B;
+    --dark-bg: #0F172A;
+    --light-gray: #F8FAFC;
+    --border-gray: #E2E8F0;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --white: #FFFFFF;
+    --success-green: #10B981;
+    --warning-red: #EF4444;
+}
+
+/* ==========================================
+   GLOBAL STYLES
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    background-color: var(--white);
+    overflow-x: hidden;
+}
+
+/* ==========================================
+   NAVIGATION - WHITE / ROYAL BLUE (#0056b3)
+   ========================================== */
+.navbar {
+    background: #FFFFFF !important;
+    padding: 0.85rem 0;
+    box-shadow: 0 2px 12px rgba(0, 86, 179, 0.1);
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #0056b3 !important;
+    letter-spacing: -0.5px;
+}
+
+.navbar-toggler {
+    border-color: #0056b3;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%230056b3' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-nav .nav-link {
+    color: #0056b3 !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0.2rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #003d80 !important;
+    background: rgba(0, 86, 179, 0.07);
+}
+
+.navbar-nav .nav-link.active {
+    color: #003d80 !important;
+    font-weight: 700;
+}
+
+/* ── Services link + Chevron ── */
+.services-link {
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+}
+
+.chevron-icon {
+    color: #0056b3;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.services-link[aria-expanded="true"] .chevron-icon {
+    transform: rotate(180deg);
+}
+
+/* ── Dropdown Caret removed ── */
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.nav-item.dropdown .nav-link {
+    color: #0056b3 !important;
+    font-weight: 600;
+}
+
+/* ── Dropdown Menu ── */
+.dropdown-menu {
+    background: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 86, 179, 0.12);
+    padding: 0.5rem 0;
+    margin-top: 0.75rem;
+    animation: dropdownFadeIn 0.22s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+    color: #0056b3;
+    padding: 0.7rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+    background: rgba(0, 86, 179, 0.08);
+    color: #003d80;
+    padding-left: 1.75rem;
+}
+
+.dropdown-divider {
+    border-color: rgba(0, 86, 179, 0.15);
+}
+
+/* ── User Icon ── */
+.user-icon {
+    width: 40px;
+    height: 40px;
+    background: #0056b3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.user-icon:hover {
+    background: #003d80;
+    transform: scale(1.08);
+    box-shadow: 0 4px 14px rgba(0, 86, 179, 0.35);
+}
+
+.user-icon.dropdown-toggle::after {
+    display: none !important;
+}
+
+.dropdown-menu-end {
+    right: 0;
+    left: auto;
+}
+
+/* ==========================================
+   HERO SECTION - VIDEO BACKGROUND + LAYOUT
+   ========================================== */
+.hero-section {
+    position: relative;
+    padding: 5rem 0 4rem;
+    overflow: hidden;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Video Background */
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    object-fit: cover;
+}
+
+/* Dark Gradient Overlay */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        rgba(10, 20, 50, 0.92) 0%,
+        rgba(0, 50, 120, 0.80) 60%,
+        rgba(0, 86, 179, 0.65) 100%
+    );
+    z-index: 1;
+}
+
+/* Content above overlay */
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── LEFT column ── */
+.hero-left {
+    padding-right: 2.5rem;
+}
+
+/* Text wrapper – children animated by JS */
+.hero-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Headline "You Matter." */
+.hero-main-title {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #FFFFFF;
+    line-height: 1.05;
+    margin-bottom: 1.25rem;
+    letter-spacing: -2px;
+    min-height: 1.2em;          /* reserve space while typewriter runs */
+}
+
+/* Typewriter cursor */
+.typewriter-text::after {
+    content: '|';
+    display: inline-block;
+    animation: blink 0.75s step-end infinite;
+    color: rgba(255,255,255,0.8);
+    margin-left: 3px;
+}
+
+.typewriter-done::after {
+    display: none;               /* hide cursor when done */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* Sub-headline */
+.hero-subheadline {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    max-width: 480px;
+}
+
+/* Arabic label */
+.hero-cta-label {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.1rem;
+}
+
+/* Buttons row */
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Both buttons: IDENTICAL dimensions, border-radius, font-weight */
+.btn-hero {
+    /* exact same box */
+    min-width: 220px;
+    padding: 0.9rem 1.5rem;
+    border-radius: 10px;
+    /* text */
+    font-size: 0.97rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    /* style: transparent + white border */
+    background: transparent;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    /* motion */
+    transition: background 0.28s ease, color 0.28s ease,
+                transform 0.25s ease, box-shadow 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-hero:hover {
+    background: #FFFFFF;
+    color: #0056b3;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+/* ── RIGHT column: Image – no frame, no shadow ── */
+.hero-right {
+    padding-left: 1.5rem;
+}
+
+.anim-fade-right {
+    opacity: 0;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0;           /* flat, clean look */
+    border: none;
+    box-shadow: none;
+    display: block;
+}
+
+/* ── JS-driven animation classes ── */
+.anim-fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+}
+
+.anim-visible {
+    opacity: 1 !important;
+    transform: translateY(0) translateX(0) !important;
+    transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+/* ── Keyframes ── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Fallback: no video */
+@supports not (object-fit: cover) {
+    .hero-video { display: none; }
+    .hero-section { background: linear-gradient(135deg, #0a1432 0%, #003270 100%); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+    .hero-left  { padding-right: 1rem; }
+    .hero-right { padding-left: 1rem; margin-top: 2.5rem; }
+}
+
+@media (max-width: 768px) {
+    .hero-main-title   { font-size: 3.2rem; letter-spacing: -1px; }
+    .hero-subheadline  { font-size: 1.1rem; }
+    .hero-buttons      { flex-direction: column; }
+    .btn-hero          { min-width: 100%; }
+}
+
+/* ==========================================
+   ABOUT SECTION
+   ========================================== */
+.about-section {
+    background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+    padding: 4rem 0;
+    color: var(--white);
+}
+
+.about-image {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.about-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+}
+
+.about-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================
+   3D BODY SECTION
+   ========================================== */
+.body-3d-section {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+.body-3d-card {
+    background: var(--light-gray);
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+}
+
+.body-3d-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.body-3d-text {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.body-3d-image {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.body-3d-image img {
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.body-3d-image:hover img {
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   HEALTH TOOLS SECTION - ENHANCED IMAGES
+   ========================================== */
+.health-tools-section {
+    padding: 4rem 0;
+    background: var(--light-gray);
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+.tool-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid var(--border-gray);
+}
+
+.tool-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: var(--primary-blue);
+}
+
+/* ENHANCED: Larger, more prominent images */
+.tool-icon {
+    width: 100%;
+    height: 220px; /* Increased from 150px */
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover .tool-icon {
+    transform: scale(1.05);
+}
+
+.tool-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.tool-description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.btn-tool {
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-tool:hover {
+    background: var(--primary-dark);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* ==========================================
+   EDUCATION SECTION
+   ========================================== */
+.education-section {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+.education-card {
+    background: var(--light-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.education-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.education-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.education-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.education-card:hover .education-image img {
+    transform: scale(1.1);
+}
+
+.education-content {
+    padding: 2rem;
+}
+
+.education-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.education-text {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================
+   CTA SECTION
+   ========================================== */
+.cta-section {
+    background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+    padding: 4rem 0;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.cta-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+}
+
+.cta-buttons {
+    position: relative;
+    z-index: 1;
+}
+
+.cta-buttons .btn {
+    padding: 1rem 2.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-cta-primary {
+    background: var(--white);
+    color: var(--primary-blue);
+    border: none;
+}
+
+.btn-cta-primary:hover {
+    background: var(--light-gray);
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cta-secondary {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid var(--white);
+}
+
+.btn-cta-secondary:hover {
+    background: var(--white);
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================
+   SUCCESS STORIES
+   ========================================== */
+.success-section {
+    padding: 4rem 0;
+    background: var(--light-gray);
+}
+
+/* Title row + Share button side by side */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Share Your Story button */
+.btn-share-story {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
+    border-radius: 8px;
+    padding: 0.55rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-share-story:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: translateX(3px);
+}
+
+.share-arrow {
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.btn-share-story:hover .share-arrow {
+    transform: translateX(4px);
+}
+
+.story-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.story-badge {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.story-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.story-text {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* ==========================================
+   SEMINARS SECTION
+   ========================================== */
+.seminars-section {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+/* Seminar card now matches story-card style (same size, 3 per row) */
+.seminar-card {
+    background: var(--white);
+    border: 2px solid var(--border-gray);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.seminar-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1);
+    transform: translateY(-5px);
+}
+
+.seminar-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.seminar-info {
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+.btn-register {
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.btn-register:hover {
+    background: var(--primary-dark);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* ==========================================
+   FOOTER - PROFESSIONAL REDESIGN
+   ========================================== */
+.footer {
+    background: var(--dark-bg);
+    color: var(--white);
+    padding: 4rem 0 0;
+}
+
+/* Column 1: Brand & About */
+.footer-brand {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--primary-blue);
+}
+
+.footer-about {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* Column 2: Quick Links */
+.footer-heading {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: var(--primary-blue);
+    padding-left: 5px;
+}
+
+/* Column 3: Contact Info */
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-icon {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+    min-width: 24px;
+}
+
+.footer-contact a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: var(--primary-blue);
+}
+
+/* Column 4: Newsletter */
+.newsletter-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.newsletter-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.newsletter-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+.newsletter-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-newsletter {
+    background: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-newsletter:hover {
+    background: var(--light-blue);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Bottom Bar: Copyright & Social Media */
+.footer-bottom {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.copyright-text {
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Social Media Icons */
+.social-media {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.social-icon:hover {
+    background: var(--primary-blue);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.social-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .social-media {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .copyright-text {
+        text-align: center !important;
+        margin-bottom: 1rem;
+    }
+    
+    .footer-bottom .row > div {
+        text-align: center !important;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .cta-title {
+        font-size: 2rem;
+    }
+    
+    .body-3d-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+    }
+    
+    .hero-section {
+        min-height: 500px;
+    }
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+.brand-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    margin-right: 12px;
+    display: inline-block;
+}
+
+/* ==========================================
+   LOGIN / SIGN UP BUTTON (Guest Navbar)
+   ========================================== */
+#nav-auth-guest .btn-login {
+    background: #2563eb;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 22px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35);
+    white-space: nowrap;
+}
+
+#nav-auth-guest .btn-login:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
+#nav-auth-guest .btn-login:active {
+    transform: translateY(0);
+    background: #1e40af;
+}
+
+/* ==========================================
+   AUTH TOAST NOTIFICATION
+   ========================================== */
+#auth-toast {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: #1a1a2e;
+    border: 1px solid #e74c3c;
+    color: #fff;
+    padding: 16px 28px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+#auth-toast.show {
+    display: block;
+    animation: toastSlideDown 0.3s ease;
+}
+
+@keyframes toastSlideDown {
+    from { opacity: 0; transform: translateX(-50%) translateY(-16px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ==========================================
+   NOTIFICATION SYSTEM (JS showNotification)
+   ========================================== */
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(60px); }
+}

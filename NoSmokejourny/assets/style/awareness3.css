@@ -1,0 +1,482 @@
+/* ==========================================
+   MYTHS VS FACTS PAGE — awareness3.css
+   ONLY page-specific styles (Navbar & Footer from main Style.css)
+   ========================================== */
+
+/* ══════════════════════════════════════════
+   VARIABLES
+   ══════════════════════════════════════════ */
+:root {
+    --primary-blue: #0056b3;
+    --primary-dark: #003d80;
+    --light-blue: #3B82F6;
+    --accent-blue: #60A5FA;
+    --dark-navy: #1E293B;
+    --dark-bg: #0F172A;
+    --light-gray: #F8FAFC;
+    --border-gray: #E2E8F0;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --white: #FFFFFF;
+    --success-green: #10B981;
+    --warning-red: #EF4444;
+    --warning-amber: #F59E0B;
+}
+
+/* ══════════════════════════════════════════
+   HERO SECTION (Page Specific)
+   ══════════════════════════════════════════ */
+.myths-hero {
+    background: linear-gradient(135deg, #0056b3 0%, #003d80 100%);
+    padding: 5rem 0 4rem;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(96, 165, 250, 0.15), transparent 70%);
+    pointer-events: none;
+}
+
+.hero-content-wrapper {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.myths-hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+}
+
+.myths-hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.myths-hero-title .highlight {
+    color: #FFD700;
+}
+
+.myths-hero-sub {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.95;
+}
+
+/* ══════════════════════════════════════════
+   MAIN CONTENT
+   ══════════════════════════════════════════ */
+.myths-main {
+    padding: 4rem 0;
+    background: var(--light-gray);
+}
+
+.intro-section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.section-intro {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════
+   MYTH CARDS
+   ══════════════════════════════════════════ */
+.myths-grid-section {
+    margin-bottom: 4rem;
+}
+
+.myth-card {
+    background: #fff;
+    border: 2px solid var(--border-gray);
+    border-radius: 16px;
+    padding: 2rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.myth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #EF4444, #F59E0B);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.myth-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 86, 179, 0.15);
+    border-color: var(--primary-blue);
+}
+
+.myth-card:hover::before {
+    opacity: 1;
+}
+
+.myth-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.myth-icon {
+    font-size: 1.5rem;
+}
+
+.myth-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #EF4444;
+}
+
+.myth-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.fact-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 2px dashed var(--border-gray);
+}
+
+.fact-icon {
+    font-size: 1.5rem;
+}
+
+.fact-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--success-green);
+}
+
+.fact-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.fact-text strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.fact-source {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.fact-source::before {
+    content: '📚 ';
+}
+
+/* ══════════════════════════════════════════
+   QUIZ SECTION
+   ══════════════════════════════════════════ */
+.quiz-section {
+    margin-bottom: 4rem;
+}
+
+.quiz-container {
+    background: #fff;
+    border: 2px solid var(--primary-blue);
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quiz-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.quiz-question {
+    margin-bottom: 2rem;
+}
+
+.question-text {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.quiz-option {
+    background: var(--light-gray);
+    border: 2px solid var(--border-gray);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quiz-option:hover {
+    background: #fff;
+    border-color: var(--primary-blue);
+    transform: translateX(8px);
+}
+
+.quiz-option.correct {
+    background: #DCFCE7;
+    border-color: var(--success-green);
+    color: var(--success-green);
+}
+
+.quiz-option.incorrect {
+    background: #FEE2E2;
+    border-color: var(--warning-red);
+    color: var(--warning-red);
+}
+
+.quiz-option:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.quiz-result {
+    text-align: center;
+    padding: 2rem;
+    background: var(--light-gray);
+    border-radius: 12px;
+}
+
+.result-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+}
+
+.result-message {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.btn-quiz-restart {
+    background: var(--primary-blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-quiz-restart:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════
+   CTA SECTION
+   ══════════════════════════════════════════ */
+.cta-section-myths {
+    margin-bottom: 4rem;
+}
+
+.cta-card-myths {
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+    color: #fff;
+    border-radius: 16px;
+    padding: 3rem;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.cta-text {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary-cta {
+    background: #fff;
+    color: var(--primary-blue);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary-cta {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-cta:hover {
+    background: #fff;
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+}
+
+/* ══════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════ */
+.anim-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.anim-fade-up.anim-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .myths-hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .myths-hero-sub {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .myth-card {
+        padding: 1.5rem;
+    }
+    
+    .quiz-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-primary-cta,
+    .btn-secondary-cta {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .myths-hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .myths-hero {
+        padding: 3rem 0;
+    }
+    
+    .quiz-title {
+        font-size: 1.5rem;
+    }
+    
+    .cta-title {
+        font-size: 1.5rem;
+    }
+    
+    .cta-card-myths {
+        padding: 2rem;
+    }
+}
