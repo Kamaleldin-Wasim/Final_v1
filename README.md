@@ -41,7 +41,7 @@ The platform combines **scientific health assessments**, **AI-powered symptom ch
 ## 🎨 UI/UX Design
 
 > **Figma Design:**
-> [Add Figma/UI Link Here](#)
+> https://www.figma.com/site/CA8CbtzaSXVNiKd90YC3cj/HealthCare?node-id=0-1&t=OGNSPoMj0PRs2V5m-1
 
 The frontend follows a modern, health-focused design language with calming blue gradients, clean typography (Inter, DM Sans, Syne), and fully responsive layouts optimized for both desktop and mobile experiences.
 
