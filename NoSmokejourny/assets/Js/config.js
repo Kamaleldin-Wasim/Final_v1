@@ -532,7 +532,8 @@ async function mockRequest(endpoint, options = {}) {
   }
 
   // ===== DASHBOARD STATS =====
-  if (endpoint.includes('/api/dashboard/stats')) {
+  // ✅ FIX: Use uppercase /api/Dashboard/stats for consistency with .NET naming convention
+  if (endpoint.includes('/api/Dashboard/stats') || endpoint.includes('/api/dashboard/stats')) {
     const storiesSubmitted = MOCK_DATA.stories.length;
     const totalUsers = 1250;
     const activeDoctors = MOCK_DATA.doctors.length;
@@ -646,10 +647,47 @@ async function realRequest(endpoint, options = {}) {
       }
     });
 
-    const data = await response.json();
+    // ✅ CRITICAL FIX: Check response status FIRST before parsing JSON
+    if (!response.ok) {
+      // Try to parse error response as JSON, but handle empty/invalid JSON gracefully
+      let errorData = null;
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          errorData = await response.json();
+        } else {
+          const text = await response.text();
+          errorData = { message: text || `HTTP ${response.status} Error` };
+        }
+      } catch (parseErr) {
+        // Response body was not valid JSON or was empty
+        errorData = { message: `HTTP ${response.status}: ${response.statusText}` };
+      }
+
+      const errorMsg = errorData?.message
+        || (errorData?.errors && errorData.errors.join(', '))
+        || `Request failed with status ${response.status}`;
+      throw new Error(errorMsg);
+    }
+
+    // ✅ CRITICAL FIX: Parse JSON safely with error handling
+    let data = null;
+    try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        // Response is not JSON (could be success with no content)
+        data = { success: true, data: null, message: 'Success' };
+      }
+    } catch (parseErr) {
+      console.warn(`⚠️ Response parsing warning for ${endpoint}:`, parseErr.message);
+      // If body is empty but status is OK, treat as success
+      data = { success: true, data: null, message: 'Success (empty response)' };
+    }
 
     // .NET ApiResponse structure: { success, message, data, errors }
-    if (!response.ok || (data.success === false)) {
+    if (data && data.success === false) {
       const errorMsg = data.message || (data.errors && data.errors.join(', ')) || 'Request failed';
       throw new Error(errorMsg);
     }
@@ -792,7 +830,8 @@ async function testUserHomePage() {
 
     console.log('\n🏠 TEST 3: Fetching dashboard stats...');
     try {
-      const stats = await apiRequest('/api/dashboard/stats');
+      // ✅ FIX: Use uppercase /api/Dashboard/stats for consistency
+      const result = await apiRequest('/api/Dashboard/stats');
       console.log('📊 Dashboard stats:', stats.data);
     } catch (e) {
       console.log('ℹ️ Dashboard stats endpoint not available');

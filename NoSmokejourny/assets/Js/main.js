@@ -33,24 +33,24 @@ const FALLBACK_DATA = {
 // ============================================================
 // ❸ AUTH HELPERS
 // ============================================================
-function checkAuth() { 
-    return localStorage.getItem('jwt_token') || null; 
+function checkAuth() {
+    return localStorage.getItem('jwt_token') || null;
 }
 
-function isAuthenticated() { 
-    return !!checkAuth(); 
+function isAuthenticated() {
+    return !!checkAuth();
 }
 
-function getAuthToken() { 
-    return checkAuth(); 
+function getAuthToken() {
+    return checkAuth();
 }
 
-function getCurrentUserId() { 
-    return localStorage.getItem('user_id') || null; 
+function getCurrentUserId() {
+    return localStorage.getItem('user_id') || null;
 }
 
-function getUserName() { 
-    return localStorage.getItem('user_name') || 'User'; 
+function getUserName() {
+    return localStorage.getItem('user_name') || 'User';
 }
 
 function logout() {
@@ -86,19 +86,19 @@ function showNotification(message, type = 'success') {
 // ============================================================
 function updateNavbarUI() {
     const guestEl = document.getElementById('nav-auth-guest');
-    const userEl  = document.getElementById('nav-auth-user');
+    const userEl = document.getElementById('nav-auth-user');
     if (!guestEl || !userEl) return;
 
     if (isAuthenticated()) {
         guestEl.style.display = 'none';
-        userEl.style.display  = 'flex';
-        
+        userEl.style.display = 'flex';
+
         const userName = getUserName();
         const iconEl = document.getElementById('user-profile-icon');
         if (iconEl) iconEl.title = `Hello, ${userName} 👋`;
     } else {
         guestEl.style.display = '';
-        userEl.style.display  = 'none';
+        userEl.style.display = 'none';
     }
 }
 
@@ -123,7 +123,7 @@ function showAuthToast(e) {
  */
 function attachAccessControl() {
     document.querySelectorAll('[data-protected="true"]').forEach(el => {
-        el.addEventListener('click', function(e) {
+        el.addEventListener('click', function (e) {
             if (!isAuthenticated()) {
                 // ❌ User مش مسجل
                 e.preventDefault();  // منع الانتقال
@@ -149,26 +149,27 @@ function attachLogoutListener() {
 // ============================================================
 async function loadSuccessStories() {
     console.log('📖 Loading success stories...');
-    
+
     const container = document.getElementById('success-stories-container');
     if (!container) return;
-    
+
     container.innerHTML = '<p style="text-align:center;color:#64748b;">Loading stories...</p>';
-    
+
     try {
-        const response = await apiRequest('/api/RecoveryStories/approved');
+        // ✅ FIX: Use query parameter format for status filtering
+        const response = await apiRequest('/api/RecoveryStories?status=approved&limit=3');
         console.log('✅ Stories response:', response);
-        
+
         const stories = response.data || [];
-        
+
         if (stories.length === 0) {
             console.log('📖 No stories found, using fallback');
             renderStories(FALLBACK_DATA.successStories, container);
             return;
         }
-        
+
         renderStories(stories, container);
-        
+
     } catch (error) {
         console.error('❌ Error loading stories:', error);
         console.log('📖 Using fallback stories');
@@ -180,8 +181,8 @@ function renderStories(stories, container) {
     container.innerHTML = '';
 
     stories.forEach(story => {
-        const author   = story.author   || story.name        || 'Anonymous';
-        const text     = story.text     || story.testimonial || '';
+        const author = story.author || story.name || 'Anonymous';
+        const text = story.text || story.testimonial || '';
         const duration = story.duration || '';
 
         const col = document.createElement('div');
@@ -204,26 +205,27 @@ function renderStories(stories, container) {
 // ============================================================
 async function loadSeminars() {
     console.log('🎓 Loading seminars...');
-    
+
     const container = document.getElementById('seminars-container');
     if (!container) return;
-    
+
     container.innerHTML = '<p style="text-align:center;color:#64748b;">Loading seminars...</p>';
-    
+
     try {
-        const response = await apiRequest('/api/Seminars/upcoming');
+        // ✅ FIX: Use query parameter format for limit (no /upcoming endpoint exists)
+        const response = await apiRequest('/api/Seminars?limit=3');
         console.log('✅ Seminars response:', response);
-        
+
         const seminars = response.data || [];
-        
+
         if (seminars.length === 0) {
             console.log('🎓 No seminars found, using fallback');
             renderSeminars(FALLBACK_DATA.seminars, container);
             return;
         }
-        
+
         renderSeminars(seminars, container);
-        
+
     } catch (error) {
         console.error('❌ Error loading seminars:', error);
         console.log('🎓 Using fallback seminars');
@@ -377,9 +379,9 @@ function openRegistrationModal(seminar) {
             </div>
         </div>
     `
-    .replace('REG_SEMINAR_TITLE',  seminar.title.replace(/[<>]/g, ''))
-    .replace('REG_PREFILL_NAME',   '')
-    .replace('REG_PREFILL_EMAIL',  '');
+        .replace('REG_SEMINAR_TITLE', seminar.title.replace(/[<>]/g, ''))
+        .replace('REG_PREFILL_NAME', '')
+        .replace('REG_PREFILL_EMAIL', '');
 
     document.body.appendChild(overlay);
 
@@ -394,20 +396,20 @@ function openRegistrationModal(seminar) {
 
     // Submit handler
     document.getElementById('reg-submit-btn').addEventListener('click', async () => {
-        const nameEl  = document.getElementById('reg-name');
+        const nameEl = document.getElementById('reg-name');
         const phoneEl = document.getElementById('reg-phone');
         const emailEl = document.getElementById('reg-email');
 
         // Validation
         let valid = true;
         [nameEl, phoneEl, emailEl].forEach(el => el.classList.remove('reg-error'));
-        if (!nameEl.value.trim())                                  { nameEl.classList.add('reg-error');  valid = false; }
-        if (!phoneEl.value.trim())                                 { phoneEl.classList.add('reg-error'); valid = false; }
+        if (!nameEl.value.trim()) { nameEl.classList.add('reg-error'); valid = false; }
+        if (!phoneEl.value.trim()) { phoneEl.classList.add('reg-error'); valid = false; }
         if (!emailEl.value.trim() || !emailEl.value.includes('@')) { emailEl.classList.add('reg-error'); valid = false; }
         if (!valid) return;
 
         const submitBtn = document.getElementById('reg-submit-btn');
-        submitBtn.disabled    = true;
+        submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
 
         try {
@@ -429,7 +431,7 @@ function openRegistrationModal(seminar) {
             );
 
         } catch (error) {
-            submitBtn.disabled    = false;
+            submitBtn.disabled = false;
             submitBtn.textContent = 'Confirm Registration';
 
             if (error.message === 'ALREADY_REGISTERED') {
@@ -464,13 +466,13 @@ function escapeHtml(str) {
 function runTypewriter() {
     const element = document.querySelector('.typewriter-text');
     if (!element) return;
-    
+
     const text = 'You Matter.';
     let i = 0;
-    
+
     element.textContent = '';
     element.classList.remove('typewriter-done');
-    
+
     const interval = setInterval(() => {
         if (i < text.length) {
             element.textContent += text.charAt(i);
@@ -485,11 +487,11 @@ function runTypewriter() {
 function runHeroFadeIns() {
     const fadeUpEls = document.querySelectorAll('.anim-fade-up');
     const fadeRightEls = document.querySelectorAll('.anim-fade-right');
-    
+
     fadeUpEls.forEach(el => {
         el.classList.add('anim-visible');
     });
-    
+
     fadeRightEls.forEach(el => {
         el.classList.add('anim-visible');
     });
@@ -501,16 +503,16 @@ function runHeroFadeIns() {
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 LungCare Home Page Initialized');
     console.log('📦 Config MODE:', typeof CONFIG !== 'undefined' ? CONFIG.MODE : 'Config not loaded');
-    
+
     // 1. Navbar & Auth
     updateNavbarUI();
     attachAccessControl();  // ✅ هذه الدالة اتصلحت
     attachLogoutListener();
-    
+
     // 2. Animations
     runTypewriter();
     runHeroFadeIns();
-    
+
     // 3. Load Data
     if (typeof apiRequest !== 'undefined') {
         await loadSuccessStories();
@@ -520,7 +522,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderStories(FALLBACK_DATA.successStories, document.getElementById('success-stories-container'));
         renderSeminars(FALLBACK_DATA.seminars, document.getElementById('seminars-container'));
     }
-    
+
     console.log('✅ Page ready');
     console.log(isAuthenticated() ? '✅ User authenticated' : '🔒 Guest session');
 });

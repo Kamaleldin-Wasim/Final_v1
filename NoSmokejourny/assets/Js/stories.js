@@ -13,9 +13,9 @@ if (typeof apiRequest === 'undefined') {
 // ❷ دوال المساعدة للمصادقة
 // ============================================================
 function isAuthenticated() { return !!localStorage.getItem('jwt_token'); }
-function getToken()        { return localStorage.getItem('jwt_token') || ''; }
-function getUserName()     { return localStorage.getItem('user_name') || 'User'; }
-function getUserId()       { return localStorage.getItem('user_id') || ''; }
+function getToken() { return localStorage.getItem('jwt_token') || ''; }
+function getUserName() { return localStorage.getItem('user_name') || 'User'; }
+function getUserId() { return localStorage.getItem('user_id') || ''; }
 
 function getInitials(name) {
     return name.trim().split(' ')
@@ -26,17 +26,17 @@ function getInitials(name) {
 
 function updateNavbarUI() {
     const guestEl = document.getElementById('nav-auth-guest');
-    const userEl  = document.getElementById('nav-auth-user');
+    const userEl = document.getElementById('nav-auth-user');
     if (!guestEl || !userEl) return;
 
     if (isAuthenticated()) {
         guestEl.style.display = 'none';
-        userEl.style.display  = 'flex';
+        userEl.style.display = 'flex';
         const iconEl = document.getElementById('user-profile-icon');
         if (iconEl) iconEl.title = `Logged in as ${getUserName()}`;
     } else {
         guestEl.style.display = '';
-        userEl.style.display  = 'none';
+        userEl.style.display = 'none';
     }
 }
 
@@ -77,13 +77,13 @@ function initProtectedLinks() {
 // ❹ إظهار/إخفاء واجهة المستخدم
 // ============================================================
 function renderAuthUI() {
-    const guestLock  = document.getElementById('guestLock');
-    const shareCard  = document.getElementById('shareCard');
+    const guestLock = document.getElementById('guestLock');
+    const shareCard = document.getElementById('shareCard');
     const reviewNote = document.getElementById('reviewNotice');
 
     if (isAuthenticated()) {
         if (guestLock) guestLock.style.display = 'none';
-        
+
         // إخفاء إشعار المراجعة إذا كان ظاهراً من المرة السابقة
         const reviewShown = reviewNote && reviewNote.style.display !== 'none';
         if (!reviewShown && shareCard) shareCard.style.display = 'block';
@@ -105,15 +105,15 @@ function renderAuthUI() {
 // ============================================================
 async function fetchStories() {
     console.log('📖 Fetching stories for user...');
-    
+
     try {
-        // ✅ جلب القصص المقبولة فقط من الباك اند الوهمي
-        const response = await apiRequest('/api/RecoveryStories/approved');
+        // ✅ FIX: جلب القصص المقبولة فقط - use query parameter format
+        const response = await apiRequest('/api/RecoveryStories?status=approved');
         console.log('✅ Stories response:', response);
-        
+
         // Return the actual array from response.data
         return response.data || response || [];
-        
+
     } catch (error) {
         console.error('❌ Error fetching stories:', error);
         return []; // في حالة الخطأ، أرجع مصفوفة فارغة
@@ -131,16 +131,16 @@ function timeAgo(isoDate) {
     const hrs = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
 
-    if (mins < 1)  return 'just now';
+    if (mins < 1) return 'just now';
     if (mins < 60) return `${mins} minute${mins !== 1 ? 's' : ''} ago`;
-    if (hrs  < 24) return `${hrs} hour${hrs !== 1 ? 's' : ''} ago`;
+    if (hrs < 24) return `${hrs} hour${hrs !== 1 ? 's' : ''} ago`;
     return `${days} day${days !== 1 ? 's' : ''} ago`;
 }
 
 function buildAvatarColor(name) {
     const colors = [
-        '#2563EB','#0891B2','#059669','#7C3AED',
-        '#DB2777','#D97706','#16A34A','#DC2626'
+        '#2563EB', '#0891B2', '#059669', '#7C3AED',
+        '#DB2777', '#D97706', '#16A34A', '#DC2626'
     ];
     let hash = 0;
     for (const c of name) hash = (hash * 31 + c.charCodeAt(0)) % colors.length;
@@ -220,26 +220,26 @@ async function loadFeed() {
 // ============================================================
 async function submitStory(content) {
     console.log('📝 Submitting story for review...');
-    
+
     // ✅ إنشاء كائن القصة 
     const storyPayload = {
         title: "My Success Story", // العنوان
         content: content,           // المحتوى
         photoUrl: ""               // الصورة (اختياري)
     };
-    
+
     console.log('Story Payload:', storyPayload);
-    
+
     try {
         // ✅ إرسال القصة إلى الـ endpoint المخصص
         const response = await apiRequest('/api/RecoveryStories', {
             method: 'POST',
             body: JSON.stringify(storyPayload)
         });
-        
+
         console.log('✅ Story submitted and pending approval:', response);
         return response;
-        
+
     } catch (error) {
         console.error('❌ Submit error:', error);
         throw error;
@@ -317,7 +317,7 @@ function initFeedEvents() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Stories page initialized for user view');
     console.log('📦 Config MODE:', CONFIG?.MODE || 'unknown');
-    
+
     updateNavbarUI();
     initLogout();
     initProtectedLinks();
@@ -325,6 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initShareForm(); // ✅ تفعيل نموذج المشاركة
     initFeedEvents();
     loadFeed();      // ✅ تحميل وعرض القصص
-    
+
     console.log('✅ Stories page ready');
 });

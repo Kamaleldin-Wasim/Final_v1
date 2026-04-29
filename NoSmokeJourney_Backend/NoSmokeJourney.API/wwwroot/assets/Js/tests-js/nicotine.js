@@ -7,10 +7,11 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════════
-   AUTH SERVICE - UPDATED
+   AUTH SERVICE - UPDATED WITH MISSING METHODS
 ══════════════════════════════════════════════════════════════ */
 const AuthService = (() => {
-    const getToken    = () => localStorage.getItem('jwt_token');
+    // ✅ FIX: Use consistent token key 'authToken' instead of 'jwt_token'
+    const getToken = () => localStorage.getItem('authToken') || localStorage.getItem('jwt_token');
     const getUserName = () => localStorage.getItem('user_name') || '';
     const isAuthenticated = () => !!getToken();
 
@@ -21,12 +22,65 @@ const AuthService = (() => {
     }
 
     function updateNavbarUI() {
-        // Assume navbar is handled by other scripts or keep it simple
+        const guestEl = document.getElementById('nav-auth-guest');
+        const userEl = document.getElementById('nav-auth-user');
+        if (!guestEl || !userEl) return;
+
+        if (isAuthenticated()) {
+            guestEl.style.display = 'none';
+            userEl.style.display = 'block';
+            const iconEl = document.getElementById('user-profile-icon');
+            if (iconEl) iconEl.title = `Logged in as ${getUserName()}`;
+            const nameEl = document.getElementById('nav-user-name');
+            if (nameEl) nameEl.textContent = getUserName();
+        } else {
+            guestEl.style.display = 'block';
+            userEl.style.display = 'none';
+        }
     }
 
-    return { 
-        getToken, getUserName, isAuthenticated, requireAuth, 
-        updateNavbarUI 
+    // ✅ FIX: Add missing initLogout method
+    function initLogout() {
+        const logoutLink = document.getElementById('logout-link');
+        if (!logoutLink) return;
+
+        logoutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                logout();
+            }
+        });
+    }
+
+    // ✅ FIX: Add missing initDropdownChevron method
+    function initDropdownChevron() {
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.addEventListener('show.bs.dropdown', () => {
+                const chevron = dropdown.querySelector('.chevron-icon');
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            });
+
+            dropdown.addEventListener('hide.bs.dropdown', () => {
+                const chevron = dropdown.querySelector('.chevron-icon');
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            });
+        });
+    }
+
+    function logout() {
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_name');
+        localStorage.removeItem('user_role');
+        const isInSubfolder = window.location.pathname.includes('/page/');
+        const redirectPath = isInSubfolder ? '../../../index.html' : '../index.html';
+        setTimeout(() => { window.location.href = redirectPath; }, 1200);
+    }
+
+    return {
+        getToken, getUserName, isAuthenticated, requireAuth,
+        updateNavbarUI, initLogout, initDropdownChevron, logout
     };
 })();
 
@@ -47,12 +101,12 @@ const ApiService = (() => {
                 question5Score: resultObj.answers[4].score,
                 question6Score: resultObj.answers[5].score
             };
-            
+
             const response = await apiRequest('/api/AddictionTests/take-test', {
                 method: 'POST',
                 body: JSON.stringify(payload)
             });
-            
+
             sessionStorage.setItem(SESSION_KEY, JSON.stringify(response));
             return response;
         } catch (error) {
@@ -81,11 +135,11 @@ const ApiService = (() => {
         ]
     };
 
-    return { 
-        getQuestions: async () => FALLBACK_QUESTIONS, 
-        getUserResult, 
-        saveResult, 
-        clearSavedResult 
+    return {
+        getQuestions: async () => FALLBACK_QUESTIONS,
+        getUserResult,
+        saveResult,
+        clearSavedResult
     };
 })();
 
@@ -106,11 +160,11 @@ const ScoringService = (() => {
 
     const INTERPRETATIONS = {
         low: {
-            label:       'Low Dependence',
-            emoji:       '🟢',
-            color:       '#10B981',
-            bg:          '#ECFDF5',
-            border:      '#A7F3D0',
+            label: 'Low Dependence',
+            emoji: '🟢',
+            color: '#10B981',
+            bg: '#ECFDF5',
+            border: '#A7F3D0',
             explanation: 'Your score suggests a low level of nicotine dependence. Physiological withdrawal will likely be mild, and behavioural strategies alone may be sufficient to help you quit successfully.',
             recommendations: [
                 { icon: '📅', bg: '#DBEAFE', text: 'Set a specific quit date within the next two weeks and write it down.' },
@@ -120,11 +174,11 @@ const ScoringService = (() => {
             ]
         },
         moderate: {
-            label:       'Moderate Dependence',
-            emoji:       '🟡',
-            color:       '#F59E0B',
-            bg:          '#FFFBEB',
-            border:      '#FDE68A',
+            label: 'Moderate Dependence',
+            emoji: '🟡',
+            color: '#F59E0B',
+            bg: '#FFFBEB',
+            border: '#FDE68A',
             explanation: 'Your score indicates a moderate level of nicotine dependence. Quitting without support may be challenging. A combination of Nicotine Replacement Therapy (NRT) and behavioural counselling is strongly recommended.',
             recommendations: [
                 { icon: '💊', bg: '#FEF3C7', text: 'Consider Nicotine Replacement Therapy — patches, gum, or lozenges to ease cravings.' },
@@ -134,11 +188,11 @@ const ScoringService = (() => {
             ]
         },
         high: {
-            label:       'High Dependence',
-            emoji:       '🔴',
-            color:       '#EF4444',
-            bg:          '#FEF2F2',
-            border:      '#FECACA',
+            label: 'High Dependence',
+            emoji: '🔴',
+            color: '#EF4444',
+            bg: '#FEF2F2',
+            border: '#FECACA',
             explanation: 'Your score indicates a high level of nicotine dependence. Withdrawal symptoms are likely to be intense. Medical supervision combined with structured quit programs — using both NRT and behavioural therapy — significantly improves your success rate.',
             recommendations: [
                 { icon: '🏥', bg: '#FEE2E2', text: 'Seek immediate support from a smoking-cessation specialist or your primary care physician.' },
@@ -159,11 +213,11 @@ const ScoringService = (() => {
    UI SERVICE (unchanged)
 ══════════════════════════════════════════════════════════════ */
 const UIService = (() => {
-    const el        = (id) => document.getElementById(id);
-    const show      = (id) => { const e = el(id); if (e) e.style.display = 'block'; };
-    const hide      = (id) => { const e = el(id); if (e) e.style.display = 'none';  };
-    const setText   = (id, txt)  => { const e = el(id); if (e) e.textContent = txt; };
-    const setHTML   = (id, html) => { const e = el(id); if (e) e.innerHTML  = html; };
+    const el = (id) => document.getElementById(id);
+    const show = (id) => { const e = el(id); if (e) e.style.display = 'block'; };
+    const hide = (id) => { const e = el(id); if (e) e.style.display = 'none'; };
+    const setText = (id, txt) => { const e = el(id); if (e) e.textContent = txt; };
+    const setHTML = (id, html) => { const e = el(id); if (e) e.innerHTML = html; };
     const setDisabled = (id, flag) => { const e = el(id); if (e) e.disabled = flag; };
 
     function buildProgressDots(total) {
@@ -183,7 +237,7 @@ const UIService = (() => {
             const d = el(`pdot-${i}`);
             if (!d) continue;
             d.className = 'prog-dot';
-            if (answers[i])       d.classList.add('done');
+            if (answers[i]) d.classList.add('done');
             if (i === currentIdx) d.classList.add('active');
         }
     }
@@ -193,7 +247,7 @@ const UIService = (() => {
         const bar = el('prog-bar-fill');
         if (bar) bar.style.width = pct + '%';
         setText('prog-current', currentIdx + 1);
-        setText('prog-total',   total);
+        setText('prog-total', total);
     }
 
     function buildAnswerDots(currentIdx, answers, total) {
@@ -203,7 +257,7 @@ const UIService = (() => {
         for (let i = 0; i < total; i++) {
             const d = document.createElement('div');
             d.className = 'ans-dot';
-            if (answers[i])       d.classList.add('done');
+            if (answers[i]) d.classList.add('done');
             if (i === currentIdx) d.classList.add('active');
             container.appendChild(d);
         }
@@ -221,16 +275,16 @@ const UIService = (() => {
         const date = new Date(saved.testDate).toLocaleDateString('en-GB', {
             day: 'numeric', month: 'long', year: 'numeric'
         });
-        setText('saved-date',       'Taken on ' + date);
-        setText('saved-score-num',  saved.score);
+        setText('saved-date', 'Taken on ' + date);
+        setText('saved-score-num', saved.score);
         setText('saved-level-text', interp.label);
-        setText('saved-level-sub',  `Score: ${saved.score} / 10`);
+        setText('saved-level-sub', `Score: ${saved.score} / 10`);
 
         const circle = el('saved-circle');
         if (circle) {
             circle.style.borderColor = interp.color;
-            circle.style.color       = interp.color;
-            circle.style.background  = interp.bg;
+            circle.style.color = interp.color;
+            circle.style.background = interp.bg;
         }
         const levelTxt = el('saved-level-text');
         if (levelTxt) levelTxt.style.color = interp.color;
@@ -284,15 +338,15 @@ const UIService = (() => {
         buildAnswerDots(currentIdx, answers, total);
 
         setDisabled('btn-back', currentIdx === 0);
-        const isLast    = currentIdx === total - 1;
+        const isLast = currentIdx === total - 1;
         const hasAnswer = !!answers[currentIdx];
 
         if (isLast) {
-            el('btn-next').style.display   = 'none';
+            el('btn-next').style.display = 'none';
             el('btn-submit').style.display = 'inline-flex';
             setDisabled('btn-submit', !hasAnswer);
         } else {
-            el('btn-next').style.display   = 'inline-flex';
+            el('btn-next').style.display = 'inline-flex';
             el('btn-submit').style.display = 'none';
             setDisabled('btn-next', !hasAnswer);
         }
@@ -308,10 +362,10 @@ const UIService = (() => {
 
         const pill = el('result-level-pill');
         if (pill) {
-            pill.textContent      = `${interp.emoji}  ${interp.label}`;
+            pill.textContent = `${interp.emoji}  ${interp.label}`;
             pill.style.background = interp.bg;
-            pill.style.color      = interp.color;
-            pill.style.border     = `1.5px solid ${interp.border}`;
+            pill.style.color = interp.color;
+            pill.style.border = `1.5px solid ${interp.border}`;
         }
 
         setText('result-explanation', interp.explanation);
@@ -330,9 +384,9 @@ const UIService = (() => {
     function setSaveStatus(state, msg) {
         const statusEl = el('save-status');
         if (!statusEl) return;
-        const icons  = { saving: '<span class="spinner-sm"></span>', success: '✅', error: '⚠️' };
+        const icons = { saving: '<span class="spinner-sm"></span>', success: '✅', error: '⚠️' };
         const colors = { saving: 'var(--text-secondary)', success: 'var(--success-green)', error: 'var(--warning-amber)' };
-        statusEl.innerHTML   = `${icons[state] || ''} ${msg}`;
+        statusEl.innerHTML = `${icons[state] || ''} ${msg}`;
         statusEl.style.color = colors[state] || '';
     }
 
@@ -348,10 +402,10 @@ const UIService = (() => {
    TEST CONTROLLER (updated init)
 ══════════════════════════════════════════════════════════════ */
 const TestController = (() => {
-    let questions    = [];
-    let answers      = [];
+    let questions = [];
+    let answers = [];
     let currentIndex = 0;
-    let totalQ       = 0;
+    let totalQ = 0;
 
     async function init() {
         // Update navbar UI
@@ -376,7 +430,7 @@ const TestController = (() => {
     }
 
     async function _startTest() {
-        answers      = [];
+        answers = [];
         currentIndex = 0;
 
         UIService.hide('saved-panel');
@@ -384,8 +438,8 @@ const TestController = (() => {
 
         try {
             const data = await ApiService.getQuestions();
-            questions  = data.questions;
-            totalQ     = data.questions.length;
+            questions = data.questions;
+            totalQ = data.questions.length;
         } catch (err) {
             console.error('[TestController] Failed to load questions:', err);
             alert('Could not load test questions. Please refresh the page.');
@@ -418,8 +472,8 @@ const TestController = (() => {
     function onOptionSelected(opt, qIndex) {
         answers[qIndex] = {
             questionId: questions[qIndex].id,
-            label:      opt.label,
-            score:      opt.score
+            label: opt.label,
+            score: opt.score
         };
 
         const isLast = qIndex === totalQ - 1;
@@ -448,9 +502,9 @@ const TestController = (() => {
     }
 
     async function submitTest() {
-        const score  = ScoringService.calculate(answers);
-        const level  = ScoringService.classify(score);
-        
+        const score = ScoringService.calculate(answers);
+        const level = ScoringService.classify(score);
+
         UIService.setSaveStatus('saving', 'Sending results...');
 
         try {
@@ -459,17 +513,17 @@ const TestController = (() => {
             };
 
             const backendResult = await ApiService.saveResult(resultObj);
-            
+
             document.getElementById('progress-strip').style.display = 'none';
             UIService.hide('test-container');
 
             // Use backend advice and level
             const interp = ScoringService.getInterpretation(backendResult.addictionLevel.toLowerCase());
             interp.explanation = backendResult.advice; // Override with backend advice
-            
+
             UIService.renderResult(backendResult.totalScore, interp);
             UIService.setSaveStatus('success', 'Results saved to profile');
-            
+
         } catch (error) {
             UIService.setSaveStatus('error', 'Could not save results');
             alert('Failed to save test results: ' + error.message);

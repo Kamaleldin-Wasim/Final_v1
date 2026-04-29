@@ -14,48 +14,48 @@ let storyToDelete = null;
 
 async function fetchStories(page = 1, status = currentStatus) {
   const container = document.getElementById('storiesList');
-  
+
   currentPage = page;
   currentStatus = status;
-  
+
   const params = new URLSearchParams({
     page: page,
     limit: 10,
     status: status
   });
-  
+
   try {
     container.innerHTML = '<div class="loading-message">Loading stories...</div>';
-    
+
     const result = await apiRequest(`/api/RecoveryStories?${params}`);
-    
+
     // The API returns { success, data: { items, pageNumber, totalPages, ... } }
     const responseData = result.data || result;
     const stories = responseData?.items || [];
-    const pagination = responseData; 
-    
+    const pagination = responseData;
+
     // Note: Backend doesn't return filters count in this endpoint yet
     // I will mock them or we can add an endpoint for stats later
-    
+
     if (pagination) {
       currentPage = pagination.pageNumber;
       totalPages = pagination.totalPages;
       updatePaginationUI(pagination);
     }
-    
+
     updateActiveTab(status);
     container.innerHTML = '';
-    
+
     if (stories.length === 0) {
       container.innerHTML = '<div class="empty-message">No stories found</div>';
       return;
     }
-    
+
     stories.forEach(story => {
       const card = createStoryCard(story);
       container.appendChild(card);
     });
-    
+
   } catch (error) {
     console.error('Error fetching stories:', error);
     container.innerHTML = '<div class="empty-message">Failed to load stories. Please try again.</div>';
@@ -94,35 +94,35 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 function updatePaginationUI(pagination) {
   const container = document.getElementById('pagination');
   if (!container) return;
-  
+
   if (pagination.totalPages <= 1) {
     container.innerHTML = '';
     return;
   }
-  
+
   let html = '<div class="pagination-controls">';
-  
+
   html += `<button class="page-btn" ${pagination.pageNumber === 1 ? 'disabled' : ''} 
            onclick="changePage(${pagination.pageNumber - 1})">←</button>`;
-  
+
   for (let i = 1; i <= pagination.totalPages; i++) {
-    if (i === 1 || i === pagination.totalPages || 
-        (i >= pagination.pageNumber - 2 && i <= pagination.pageNumber + 2)) {
+    if (i === 1 || i === pagination.totalPages ||
+      (i >= pagination.pageNumber - 2 && i <= pagination.pageNumber + 2)) {
       html += `<button class="page-btn ${i === pagination.pageNumber ? 'active' : ''}" 
                onclick="changePage(${i})">${i}</button>`;
     } else if (i === pagination.pageNumber - 3 || i === pagination.pageNumber + 3) {
       html += `<span class="page-dots">...</span>`;
     }
   }
-  
+
   html += `<button class="page-btn" ${pagination.pageNumber === pagination.totalPages ? 'disabled' : ''} 
            onclick="changePage(${pagination.pageNumber + 1})">→</button>`;
-  
+
   html += '</div>';
   container.innerHTML = html;
 }
 
-window.changePage = function(page) {
+window.changePage = function (page) {
   if (page < 1 || page > totalPages) return;
   fetchStories(page, currentStatus);
 };
@@ -135,29 +135,29 @@ function createStoryCard(story) {
   const card = document.createElement('div');
   card.className = `story-card status-${story.status}`;
   card.dataset.storyId = story.id;
-  
-  const dateStr = story.createdAt 
-    ? new Date(story.createdAt).toLocaleDateString('en-US', { 
-        month: 'short', day: 'numeric', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      })
+
+  const dateStr = story.createdAt
+    ? new Date(story.createdAt).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    })
     : '';
-  
+
   const statusLabels = {
     pending: '⏳ Pending',
     approved: '✅ Approved',
     rejected: '❌ Rejected'
   };
-  
+
   let actionsHtml = '';
-  
+
   if (story.status === 'pending') {
     actionsHtml = `
       <button class="btn btn-primary btn-sm" onclick="approveStory('${story.id}')">✅ Accept</button>
       <button class="btn btn-warning btn-sm" onclick="rejectStory('${story.id}')">❌ Reject</button>
     `;
   }
-  
+
   card.innerHTML = `
     <div class="story-header">
       <div class="story-author-info">
@@ -172,7 +172,7 @@ function createStoryCard(story) {
       <button class="btn btn-red btn-sm" onclick="deleteStory('${story.id}')">🗑️ Delete</button>
     </div>
   `;
-  
+
   return card;
 }
 
@@ -182,13 +182,15 @@ function createStoryCard(story) {
 
 async function approveStory(storyId) {
   try {
-    const result = await apiRequest(`/api/RecoveryStories/${storyId}/approve`, {
-      method: 'POST'
+    // ✅ FIX: Use /status endpoint with body instead of /approve
+    const result = await apiRequest(`/api/RecoveryStories/${storyId}/status`, {
+      method: 'POST',
+      body: JSON.stringify({ status: 'approved' })
     });
-    
+
     fetchStories(currentPage, currentStatus);
     showAlert('Story approved successfully', 'success');
-    
+
   } catch (error) {
     console.error('Error approving story:', error);
     showAlert(error.message || 'Failed to approve story', 'error');
@@ -203,16 +205,17 @@ window.approveStory = approveStory;
 
 async function rejectStory(storyId) {
   if (!confirm('Are you sure you want to reject this story?')) return;
-  
+
   try {
-    const result = await apiRequest(`/api/RecoveryStories/${storyId}/reject`, {
+    // ✅ FIX: Use /status endpoint with body instead of /reject
+    const result = await apiRequest(`/api/RecoveryStories/${storyId}/status`, {
       method: 'POST',
-      body: JSON.stringify({ reason: 'Rejected by admin' })
+      body: JSON.stringify({ status: 'rejected', rejectionReason: 'Rejected by admin' })
     });
-    
+
     fetchStories(currentPage, currentStatus);
     showAlert('Story rejected', 'success');
-    
+
   } catch (error) {
     console.error('Error rejecting story:', error);
     showAlert(error.message || 'Failed to reject story', 'error');
@@ -242,22 +245,22 @@ async function confirmDelete() {
     closeDeleteModal();
     return;
   }
-  
+
   const btn = document.getElementById('confirmDeleteBtn');
   const originalText = btn.textContent;
   btn.textContent = 'Deleting...';
   btn.disabled = true;
-  
+
   try {
     const result = await apiRequest(`/api/RecoveryStories/${storyToDelete}`, {
       method: 'DELETE'
     });
-    
+
     fetchStories(currentPage, currentStatus);
-    
+
     closeDeleteModal();
     showAlert(result?.message || 'Story deleted successfully', 'success');
-    
+
   } catch (error) {
     console.error('Error deleting story:', error);
     showAlert(error.message || 'Failed to delete story', 'error');
@@ -286,10 +289,10 @@ function showAlert(message, type = 'error') {
   const box = document.getElementById('alertBox');
   const text = document.getElementById('alertText');
   if (!box || !text) return;
-  
+
   text.textContent = message;
   box.className = `admin-alert admin-alert--${type} show`;
-  
+
   if (type === 'success') {
     setTimeout(() => box.classList.remove('show'), 4000);
   }

@@ -14,7 +14,7 @@
 
 /* ── Generic alert display ────────────────────────── */
 function showAlert(message, type = 'error') {
-  const box  = document.getElementById('alertBox');
+  const box = document.getElementById('alertBox');
   const text = document.getElementById('alertText');
   if (!box || !text) return;
   text.textContent = message;
@@ -50,9 +50,9 @@ function getParam(name) {
    ════════════════════════════════════════════════════ */
 
 /* ── Password Toggle ──────────────────────────────── */
-const togglePwBtn   = document.getElementById('togglePw');
+const togglePwBtn = document.getElementById('togglePw');
 const passwordInput = document.getElementById('password');
-const eyeIcon       = document.getElementById('eyeIcon');
+const eyeIcon = document.getElementById('eyeIcon');
 
 const EYE_OPEN = `
   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -68,13 +68,13 @@ if (togglePwBtn && passwordInput && eyeIcon) {
   togglePwBtn.addEventListener('click', () => {
     const isPassword = passwordInput.type === 'password';
     passwordInput.type = isPassword ? 'text' : 'password';
-    eyeIcon.innerHTML  = isPassword ? EYE_CLOSED : EYE_OPEN;
+    eyeIcon.innerHTML = isPassword ? EYE_CLOSED : EYE_OPEN;
   });
 }
 
 /* ── Login error helpers ──────────────────────────── */
 function showError(message) {
-  const errorMsg  = document.getElementById('errorMsg');
+  const errorMsg = document.getElementById('errorMsg');
   const errorText = document.getElementById('errorText');
   if (!errorMsg || !errorText) return;
   errorText.textContent = message || 'Invalid email or password.';
@@ -95,11 +95,11 @@ document.getElementById('password')?.addEventListener('input', clearError);
 /* ── Login Handler (معدل لاستخدام apiRequest) ─────── */
 async function handleLogin() {
   clearError();
-  const email    = document.getElementById('email')?.value.trim();
+  const email = document.getElementById('email')?.value.trim();
   const password = document.getElementById('password')?.value;
 
   if (!isValidEmail(email)) { showError('Please enter a valid email address.'); return; }
-  if (!password)             { showError('Please enter your password.');         return; }
+  if (!password) { showError('Please enter your password.'); return; }
 
   setLoading('loginBtn', true);
 
@@ -110,26 +110,27 @@ async function handleLogin() {
     });
 
     console.log('✅ Login result:', result);
-    
+
     // The API returns { success, data: { user, token, ... } }
     const authData = result.data || result; // Handle both wrapped and unwrapped for safety
 
     if (authData?.token) {
-      localStorage.setItem('jwt_token', authData.token);
+      // ✅ FIX: Use consistent token key 'authToken' (realRequest expects this)
       localStorage.setItem('authToken', authData.token);
-      
+      localStorage.setItem('jwt_token', authData.token); // Keep for backward compatibility
+
       const user = authData.user;
       if (user) {
         localStorage.setItem('user_id', user.id);
         localStorage.setItem('user_name', user.name);
         localStorage.setItem('user_role', user.role);
       }
-      
+
       console.log('✅ Auth data stored:', { token: !!authData.token, role: user?.role });
     }
 
     const role = (authData?.user?.role || authData?.role)?.toString().toLowerCase();
-    
+
     if (role === 'admin' || role === '1') {
       window.location.href = '../../page/admin/Admin dashboard .html';
     } else if (role === 'user' || role === '0' || role === 'doctor' || role === '2') {
@@ -151,7 +152,7 @@ async function handleLogin() {
 async function handleRequestCode() {
   hideAlert();
   const emailInput = document.getElementById('email');
-  const email      = emailInput?.value.trim();
+  const email = emailInput?.value.trim();
 
   if (!isValidEmail(email)) {
     showAlert('Please enter a valid email address.');
@@ -197,7 +198,7 @@ if (sendBtn) {
   if (!otpGroup) return; // not on this page
 
   /* 1. Read email from URL and display it */
-  const userEmail    = getParam('email');
+  const userEmail = getParam('email');
   const emailDisplay = document.getElementById('emailDisplay');
   if (emailDisplay) emailDisplay.textContent = userEmail || 'your email';
 
@@ -336,39 +337,39 @@ if (sendBtn) {
   `;
 
   function makeToggle(btnId, inputId, iconId) {
-    const btn   = document.getElementById(btnId);
+    const btn = document.getElementById(btnId);
     const input = document.getElementById(inputId);
-    const icon  = document.getElementById(iconId);
+    const icon = document.getElementById(iconId);
     if (!btn || !input || !icon) return;
     btn.addEventListener('click', () => {
       const isPassword = input.type === 'password';
-      input.type      = isPassword ? 'text' : 'password';
-      icon.innerHTML  = isPassword ? EYE_CLOSED_SVG : EYE_OPEN_SVG;
+      input.type = isPassword ? 'text' : 'password';
+      icon.innerHTML = isPassword ? EYE_CLOSED_SVG : EYE_OPEN_SVG;
     });
   }
 
-  makeToggle('toggleRegPw',      'regPassword',     'eyeIconReg');
-  makeToggle('toggleConfirmPw',  'confirmPassword',  'eyeIconConfirm');
+  makeToggle('toggleRegPw', 'regPassword', 'eyeIconReg');
+  makeToggle('toggleConfirmPw', 'confirmPassword', 'eyeIconConfirm');
 
   /* ── Live password-match indicator ───────────────── */
-  const regPasswordInput    = document.getElementById('regPassword');
+  const regPasswordInput = document.getElementById('regPassword');
   const confirmPasswordInput = document.getElementById('confirmPassword');
-  const matchHint            = document.getElementById('matchHint');
+  const matchHint = document.getElementById('matchHint');
 
   function updateMatchHint() {
-    const pw  = regPasswordInput?.value;
+    const pw = regPasswordInput?.value;
     const cpw = confirmPasswordInput?.value;
     if (!cpw) {
       matchHint.textContent = '';
-      matchHint.className   = 'match-hint';
+      matchHint.className = 'match-hint';
       return;
     }
     if (pw === cpw) {
       matchHint.textContent = '✓ Passwords match';
-      matchHint.className   = 'match-hint ok';
+      matchHint.className = 'match-hint ok';
     } else {
       matchHint.textContent = '✗ Passwords do not match';
-      matchHint.className   = 'match-hint no';
+      matchHint.className = 'match-hint no';
     }
   }
 
@@ -380,10 +381,10 @@ if (sendBtn) {
     document.getElementById(id)?.classList.remove('error-input');
   }
 
-  document.getElementById('username')?.addEventListener('input',         () => { hideAlert(); clearFieldError('username'); });
-  document.getElementById('email')?.addEventListener('input',            () => { hideAlert(); clearFieldError('email'); });
-  document.getElementById('regPassword')?.addEventListener('input',      () => { hideAlert(); clearFieldError('regPassword'); });
-  document.getElementById('confirmPassword')?.addEventListener('input',  () => { hideAlert(); clearFieldError('confirmPassword'); });
+  document.getElementById('username')?.addEventListener('input', () => { hideAlert(); clearFieldError('username'); });
+  document.getElementById('email')?.addEventListener('input', () => { hideAlert(); clearFieldError('email'); });
+  document.getElementById('regPassword')?.addEventListener('input', () => { hideAlert(); clearFieldError('regPassword'); });
+  document.getElementById('confirmPassword')?.addEventListener('input', () => { hideAlert(); clearFieldError('confirmPassword'); });
 
   /* ── Client-side validation ──────────────────────── */
   function validateRegisterForm(username, email, password, confirmPassword) {
@@ -420,9 +421,9 @@ if (sendBtn) {
   async function handleRegister() {
     hideAlert();
 
-    const username        = document.getElementById('username')?.value.trim();
-    const email           = document.getElementById('email')?.value.trim();
-    const password        = document.getElementById('regPassword')?.value;
+    const username = document.getElementById('username')?.value.trim();
+    const email = document.getElementById('email')?.value.trim();
+    const password = document.getElementById('regPassword')?.value;
     const confirmPassword = document.getElementById('confirmPassword')?.value;
 
     if (!validateRegisterForm(username, email, password, confirmPassword)) return;
@@ -459,32 +460,32 @@ if (sendBtn) {
 
 // دالة لربط الزرار
 function bindLoginButton() {
-    const loginBtn = document.getElementById('loginBtn');
-    if (!loginBtn) {
-        console.log('⏳ لسه ملقيناش الزرار، هنستنى شوية');
-        setTimeout(bindLoginButton, 100); // نجرب تاني بعد 100 ملي ثانية
-        return;
-    }
-    
-    console.log('✅ لقينا الزرار، بنربطه...');
-    
-    // نشيل أي حاجة مربوطة قديمة
-    loginBtn.onclick = null;
-    
-    // نربط الحدث الجديد
-    loginBtn.addEventListener('click', function(e) {
-        console.log('👆 تم الضغط على زر تسجيل الدخول');
-        e.preventDefault(); // منع أي سلوك افتراضي
-        handleLogin(); // تشغيل دالة تسجيل الدخول
-    });
-    
-    console.log('✅ تم ربط الزرار بنجاح');
+  const loginBtn = document.getElementById('loginBtn');
+  if (!loginBtn) {
+    console.log('⏳ لسه ملقيناش الزرار، هنستنى شوية');
+    setTimeout(bindLoginButton, 100); // نجرب تاني بعد 100 ملي ثانية
+    return;
+  }
+
+  console.log('✅ لقينا الزرار، بنربطه...');
+
+  // نشيل أي حاجة مربوطة قديمة
+  loginBtn.onclick = null;
+
+  // نربط الحدث الجديد
+  loginBtn.addEventListener('click', function (e) {
+    console.log('👆 تم الضغط على زر تسجيل الدخول');
+    e.preventDefault(); // منع أي سلوك افتراضي
+    handleLogin(); // تشغيل دالة تسجيل الدخول
+  });
+
+  console.log('✅ تم ربط الزرار بنجاح');
 }
 
 // نشغل الدالة بعد تحميل الصفحة
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindLoginButton);
+  document.addEventListener('DOMContentLoaded', bindLoginButton);
 } else {
-    // الصفحة خلصت تحميل، نشغل علطول
-    bindLoginButton();
+  // الصفحة خلصت تحميل، نشغل علطول
+  bindLoginButton();
 }
